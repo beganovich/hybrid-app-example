@@ -3,6 +3,7 @@
 namespace App\Http\Actions;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 abstract class Action
 {
@@ -18,13 +19,9 @@ abstract class Action
         $action->properties = $properties ?? [];
 
         if (request()->wantsJson()) {
-            return app()->call(
-                get_called_class() . '@json'
-            );
+            return App::call([$action, 'json']);
         }
 
-        return app()->call(
-            get_called_class() . '@view'
-        );
+        return App::call([$action, 'view']);
     }
 }
