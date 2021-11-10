@@ -9,13 +9,13 @@ class Show extends Action
 {
     public function json(): Task
     {
-        return $this->properties['task'];
+        return $this->task;
     }
 
     public function view()
     {
         return view('tasks.show', [
-            'task' => $this->properties['task']]
-        );
+            'task' => $this->task
+        ]);
     }
 }
