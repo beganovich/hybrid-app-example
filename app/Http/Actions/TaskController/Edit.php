@@ -9,11 +9,11 @@ class Edit extends Action
 {
     public function json(): Edit
     {
-        return $this->properties['task'];
+        return $this->task;
     }
 
     public function view(): View
     {
-        return view('tasks.edit', $this->properties);
+        return view('tasks.edit', ['task' => $this->task]);
     }
 }

@@ -26,25 +26,21 @@ class TaskController extends Controller
 
     public function store(StoreTaskRequest $request)
     {
-        return Store::dispatch($request);
+        return Store::dispatch();
     }
 
     public function show(Task $task)
     {
-        return Show::dispatch(
-            properties: ['task' => $task]
-        );
+        return Show::dispatch();
     }
 
     public function edit(Task $task)
     {
-        return Edit::dispatch(
-            properties: ['task' => $task],
-        );
+        return Edit::dispatch();
     }
 
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        return Update::dispatch($request, ['task' => $task]);
+        return Update::dispatch();
     }
 }

@@ -7,16 +7,21 @@ use Illuminate\Support\Facades\App;
 
 abstract class Action
 {
-    protected Request $request;
-
     protected $properties;
 
-    public static function dispatch(Request $request = null, $properties = null)
+    public static function dispatch($properties = null)
     {
         $action = app()->make(get_called_class());
 
-        $action->request = $request ?? request();
         $action->properties = $properties ?? [];
+
+        $parent = debug_backtrace()[1];
+
+        $reflection = new \ReflectionMethod($parent['class'], $parent['function']);
+
+        foreach ($reflection->getParameters() as $parameter) {
+            $action->{$parameter->getName()} = $parent['args'][$parameter->getPosition()];
+        }
 
         if (request()->wantsJson()) {
             return App::call([$action, 'json']);

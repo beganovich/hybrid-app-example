@@ -9,7 +9,7 @@ class Update extends Action
 {
     public function update(): bool
     {
-        return $this->properties['task']->fill(
+        return $this->task->fill(
             $this->request->validated()
         )->save();
     }
@@ -18,7 +18,7 @@ class Update extends Action
     {
         $this->update();
 
-        return $this->properties['task'];
+        return $this->task;
     }
 
     public function view(): RedirectResponse
