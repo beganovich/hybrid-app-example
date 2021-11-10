@@ -4,7 +4,7 @@ namespace App\Http\Actions;
 
 use Illuminate\Http\Request;
 
-abstract class Action implements ActionInterface
+abstract class Action
 {
     protected Request $request;
 
@@ -12,15 +12,19 @@ abstract class Action implements ActionInterface
 
     public static function dispatch(Request $request = null, $properties = null)
     {
-        $action = new static;
+        $action = app()->make(get_called_class());
 
         $action->request = $request ?? request();
         $action->properties = $properties ?? [];
- 
+
         if (request()->wantsJson()) {
-            return $action->json();
+            return app()->call(
+                get_called_class() . '@json'
+            );
         }
 
-        return $action->view();
+        return app()->call(
+            get_called_class() . '@view'
+        );
     }
 }
